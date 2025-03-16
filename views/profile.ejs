@@ -1,0 +1,46 @@
+<% include ./partials/header.ejs %>
+    <div class="profile w-full min-h-screen bg-zinc-800 text-white pt-1">
+        <form id="uploadform" hidden action="/fileupload" method="post" enctype="multipart/form-data">
+            <input type="file" name="image">
+        </form>
+        <div class="profdets flex flex-col items-center mt-24">
+            <div class="relative">
+                <span id="uploadicon"
+                    class="h-10 w-10 absolute bottom-0 right-0 rounded-full flex items-center justify-center bg-gray-700 cursor-pointer"
+                    aria-label="Upload Profile Picture">
+                    <i class="text-white ri-pencil-fill text-lg"></i>
+                </span>
+                <div class="w-40 h-40 bg-gray-700 rounded-full overflow-hidden">
+                    <img class="w-full h-full object-cover" src="/images/uploads/<%= user.profileImage %>"
+                        alt="Profile Picture">
+                </div>
+            </div>
+            <h1 class="text-4xl font-bold mt-5"><%= user.fullname %></h1>
+            <h3 class="text-lg text-gray-400">@<%= user.username %></h3>
+            <a href="/edit" class="mt-4 px-7 py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-sm font-semibold">Edit
+                Profile</a>
+            <a href="/addpin" class="px-10 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-xs font-semibold mt-4">Add New
+                Pin</a>
+        </div>
+        <hr class="mx-36 mt-10 opacity-50">
+        <div class="cards flex flex-wrap justify-center gap-10 px-10 mt-10">
+            <% user.pins.forEach(function(qwe){ %> 
+                <a href="/show/posts" class="card bg-zinc-700 p-4 rounded-xl shadow-lg transition-transform transform hover:scale-105 duration-300">
+                    <div class="w-56 h-44 bg-gray-700 rounded-xl overflow-hidden">
+                        <img class="w-full h-full object-cover" src="/images/uploads/<%= qwe.image %>" alt="">
+                    </div>
+                    <h3 class="text-xl font-semibold mt-3 text-white"><%= qwe.title %></h3>
+                </a>
+            <%  }) %>
+        </div>
+    </div>
+    <script>
+        document.querySelector("#uploadicon").addEventListener("click", function () {
+            document.querySelector("#uploadform input").click();
+        })
+
+        document.querySelector("#uploadform input").addEventListener("change", function () {
+            document.querySelector("#uploadform").submit();
+        })
+    </script>
+    <% include ./partials/footer.ejs %>
